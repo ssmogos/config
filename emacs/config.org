@@ -80,6 +80,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
   (beacon-mode 1))
 #+END_SRC
 
+
 * Functionality
 ** Use shift keys to navigate through windows
 #+BEGIN_SRC emacs-lisp
@@ -263,6 +264,21 @@ And this quickly deletes a line.
 #+END_SRC
 
 
+** Open emacs config
+#+BEGIN_SRC emacs-lisp
+  (defun config-visit ()
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
+  (global-set-key (kbd "C-c e") 'config-visit)
+#+END_SRC
+** Reload emacs config
+#+BEGIN_SRC emacs-lisp
+  (defun config-reload ()
+    "Reloads ~/.emacs.d/config.org at runtime"
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+  (global-set-key (kbd "C-c r") 'config-reload)
+#+END_SRC
 
 * Projectile
 Projectile is an awesome project manager, mostly because it recognizes directories
