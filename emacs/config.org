@@ -191,6 +191,11 @@ Lets us use asynchronous processes wherever possible, pretty useful.
     :ensure t
     :init (dired-async-mode 1))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (setq dired-dwim-target t)
+#+END_SRC
+
 ** Set browser
 #+BEGIN_SRC emacs-lisp 
 (setq browse-url-browser-function 'browse-url-generic
