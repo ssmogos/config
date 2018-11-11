@@ -175,7 +175,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 ** Copy selected file path
 #+BEGIN_SRC emacs-lisp
 
-  (defun file-name-on-clipboard ()
+  (defun ssmogos/file-name-on-clipboard ()
     "Put the current file name on the clipboard"
     (interactive)
     (let ((filename (if (equal major-mode 'dired-mode)
@@ -186,6 +186,9 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 	  (insert filename)
 	  (clipboard-kill-region (point-min) (point-max)))
 	(message filename))))
+
+
+  (global-set-key (kbd "C-c p") 'ssmogos/file-name-on-clipboard)
 #+END_SRC
 
 ** Use async mode
@@ -203,50 +206,50 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 
 ** json and yaml func
 #+BEGIN_SRC emacs-lisp
-;; requires https://www.npmjs.com/package/json2yaml
-(defun json2yaml ()
-  "Current json buffer to yaml `json2yaml'"
-  (interactive)
-  (shell-command-on-region
-   ;; beginning and end of buffer
-   (point-min)
-   (point-max)
-   ;; command and parameters
-   "json2yaml"
-   ;; output buffer
-   (current-buffer)
-   ;; replace?
-   t
-   ;; name of the error buffer
-   "*json2yaml Buffer*"
-   ;; show error buffer?
-   t))
+  ;; requires https://www.npmjs.com/package/json2yaml
+  (defun ssmogos/json2yaml ()
+    "Current json buffer to yaml `json2yaml'"
+    (interactive)
+    (shell-command-on-region
+     ;; beginning and end of buffer
+     (point-min)
+     (point-max)
+     ;; command and parameters
+     "json2yaml"
+     ;; output buffer
+     (current-buffer)
+     ;; replace?
+     t
+     ;; name of the error buffer
+     "*json2yaml Buffer*"
+     ;; show error buffer?
+     t))
 
-;; requires npm https://www.npmjs.com/package/yaml2json
-(defun yaml2json ()
-  "Current yml buffer to json `yaml2json'"
-  (interactive)
-  (shell-command-on-region
-   ;; beginning and end of buffer
-   (point-min)
-   (point-max)
-   ;; command and parameters
-   "yaml2json"
-   ;; output buffer
-   (current-buffer)
-   ;; replace?
-   t
-   ;; name of the error buffer
-   "*yaml2json Buffer*"
-   ;; show error buffer?
-   t))
+  ;; requires npm https://www.npmjs.com/package/yaml2json
+  (defun ssmogos/yaml2json ()
+    "Current yml buffer to json `yaml2json'"
+    (interactive)
+    (shell-command-on-region
+     ;; beginning and end of buffer
+     (point-min)
+     (point-max)
+     ;; command and parameters
+     "yaml2json"
+     ;; output buffer
+     (current-buffer)
+     ;; replace?
+     t
+     ;; name of the error buffer
+     "*yaml2json Buffer*"
+     ;; show error buffer?
+     t))
 
 #+END_SRC
 
 ** Copy a line
 Regardless of where your cursor is, this quickly copies a line.
 #+BEGIN_SRC emacs-lisp
-  (defun daedreth/copy-whole-line ()
+  (defun ssmogos/copy-whole-line ()
     "Copies a line without regard for cursor position."
     (interactive)
     (save-excursion
@@ -254,7 +257,7 @@ Regardless of where your cursor is, this quickly copies a line.
        (buffer-substring
         (point-at-bol)
         (point-at-eol)))))
-  (global-set-key (kbd "C-c l c") 'daedreth/copy-whole-line)
+  (global-set-key (kbd "C-c l c") 'ssmogos/copy-whole-line)
 #+END_SRC
 
 ** Kill a line
@@ -263,21 +266,20 @@ And this quickly deletes a line.
   (global-set-key (kbd "C-c l k") 'kill-whole-line)
 #+END_SRC
 
-
 ** Open emacs config
 #+BEGIN_SRC emacs-lisp
-  (defun config-visit ()
+  (defun ssmogos/config-visit ()
     (interactive)
-    (find-file "~/.emacs.d/config.org"))
-  (global-set-key (kbd "C-c e") 'config-visit)
+    (find-file "~/dev/config/emacs/config.org"))
+  (global-set-key (kbd "C-c e") 'ssmogos/config-visit)
 #+END_SRC
 ** Reload emacs config
 #+BEGIN_SRC emacs-lisp
-  (defun config-reload ()
-    "Reloads ~/.emacs.d/config.org at runtime"
+  (defun ssmogos/config-reload ()
+    "Reloads config.org at runtime"
     (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-  (global-set-key (kbd "C-c r") 'config-reload)
+    (org-babel-load-file (expand-file-name "~/dev/config/emacs/config.org")))
+  (global-set-key (kbd "C-c r") 'ssmogos/config-reload)
 #+END_SRC
 
 * Projectile
