@@ -110,6 +110,16 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 #+END_SRC
 
 
+** Browse kill ring
+#+BEGIN_SRC emacs-lisp
+  (use-package browse-kill-ring
+    :ensure t
+    :bind ("M-y" . browse-kill-ring)
+    :config (setq browse-kill-ring-replace-yank t) ; act like yank-popup
+    )
+
+	  
+#+END_SRC
 
 * Key bindings
 #+BEGIN_SRC emacs-lisp 
@@ -141,6 +151,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
     :ensure t
     :init
     (progn
+      (ac-config-default)
       (auto-complete-mode t)
    ))
 #+END_SRC
@@ -199,7 +210,7 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 ** Set browser
 #+BEGIN_SRC emacs-lisp 
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "chromium-browser")
+      browse-url-generic-program "google-chrome")
 #+END_SRC
 
 ** json and yaml func
