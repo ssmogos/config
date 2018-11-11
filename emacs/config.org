@@ -357,15 +357,3 @@ change the numbers to suit your liking, I find 5 to be enough.
   (global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
   )   
 #+END_SRC
-
-
-* File utils
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/local/sunrise-commander")
-(require 'sunrise-commander)
-(require 'sunrise-x-buttons)
-(require 'sunrise-x-modeline)
-(add-to-list 'auto-mode-alist '("\\.srvm\\'" . sr-virtual-mode))
-
-#+END_SRC
