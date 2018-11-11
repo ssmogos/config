@@ -357,3 +357,10 @@ change the numbers to suit your liking, I find 5 to be enough.
   (global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
   )   
 #+END_SRC
+
+
+* File navigation
+** Use the same buffer with dired when navigating with 'a'
+#+BEGIN_SRC emacs-lisp
+  (put 'dired-find-alternate-file 'disabled nil)
+#+END_SRC
