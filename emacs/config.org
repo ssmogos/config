@@ -141,10 +141,8 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
     :ensure t
     :init
     (progn
-      (ac-config-default)
-      (global-auto-complete-mode t)
+      (auto-complete-mode t)
    ))
-
 #+END_SRC
 
 ** Ivy
