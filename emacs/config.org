@@ -310,7 +310,7 @@ change the numbers to suit your liking, I find 5 to be enough.
     :config
       (dashboard-setup-startup-hook)
      
-      (setq dashboard-items '((recents  . 5)
+      (setq dashboard-items '((recents  . 10)
                               (projects . 5)))
       (setq dashboard-banner-logo-title ""))
 #+END_SRC
