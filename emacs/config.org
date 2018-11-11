@@ -1,7 +1,7 @@
 #+STARTUP: content
 
 * Repos
-** Elpa
+** Elpa melpa and tromey
 #+BEGIN_SRC emacs-lisp
 (setq package-archives '(("ELPA"  . "http://tromey.com/elpa/")
 			 ("gnu"   . "http://elpa.gnu.org/packages/")
@@ -111,10 +111,10 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 
 ** Enabled copy to clipboard
 #+BEGIN_SRC emacs-lisp
-;; use the clipboard selection for C-w and C-y
-(setq x-select-enable-clipboard nil)
+  ;; use the clipboard selection for C-w and C-y
+  (setq x-select-enable-clipboard t)
+  (setq select-enable-clipboard t)
 #+END_SRC
-
 
 * Key bindings
 #+BEGIN_SRC emacs-lisp 
