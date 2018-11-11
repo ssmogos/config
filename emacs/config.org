@@ -335,6 +335,26 @@ This makes sure that everything can be a project.
          (http . t)
 	 ))
 #+END_SRC
+** Define extra orgmode templates
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist
+	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+
+  (add-to-list 'org-structure-template-alist
+	       '("http" "#+BEGIN_SRC http \n?\n#+END_SRC"))
+
+  (add-to-list 'org-structure-template-alist
+	       '("name" "#+NAME: ?"))
+
+  (add-to-list 'org-structure-template-alist
+	       '("bash" "#+BEGIN_SRC bash :results output replace\n?\n#+END_SRC"))
+
+  ;; results - the value returned by the last statement
+  (add-to-list 'org-structure-template-alist
+	       '("bash-value" "#+BEGIN_SRC bash :results value\n?\n#+END_SRC"))
+
+#+END_SRC
+
 
 ** Don't ask for confirmation for those languages
 #+BEGIN_SRC emacs-lisp
