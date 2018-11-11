@@ -292,6 +292,12 @@ And this quickly deletes a line.
   (global-set-key (kbd "C-c r") 'ssmogos/config-reload)
 #+END_SRC
 
+** Json and Yaml modes 
+#+BEGIN_SRC emacs-lisp
+    (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+    (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+    (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+#+END_SRC
 
 * Projectile
 Projectile is an awesome project manager, mostly because it recognizes directories
@@ -332,7 +338,9 @@ This makes sure that everything can be a project.
        'org-babel-load-languages
        '((emacs-lisp . t)
 	 (shell . t)
-         (http . t)
+	 (http . t)
+	 (java . t)
+         (python . t)
 	 ))
 #+END_SRC
 ** Define extra orgmode templates
@@ -344,6 +352,9 @@ This makes sure that everything can be a project.
 	       '("http" "#+BEGIN_SRC http \n?\n#+END_SRC"))
 
   (add-to-list 'org-structure-template-alist
+	       '("java" "#+HEADERS: :classname ? :cmdline \"-cp .\"\n#+BEGIN_SRC java :results output :exports both \n\n#+END_SRC"))
+
+  (add-to-list 'org-structure-template-alist
 	       '("name" "#+NAME: ?"))
 
   (add-to-list 'org-structure-template-alist
@@ -353,14 +364,16 @@ This makes sure that everything can be a project.
   (add-to-list 'org-structure-template-alist
 	       '("bash-value" "#+BEGIN_SRC bash :results value\n?\n#+END_SRC"))
 
+  ;; generate headers
+  (add-to-list 'org-structure-template-alist
+		 '("head" "#+HEADERS: ?"))
 #+END_SRC
-
 
 ** Don't ask for confirmation for those languages
 #+BEGIN_SRC emacs-lisp
 ;; disable asking for confirmation on execution in orgmode
 (defun my-org-confirm-babel-evaluate (lang body)
-  (not (member lang '("bash" "sh" "http"))))
+  (not (member lang '("bash" "sh" "http" "java"))))
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
@@ -392,4 +405,10 @@ This makes sure that everything can be a project.
 ** Use the same buffer with dired when navigating with 'a'
 #+BEGIN_SRC emacs-lisp
   (put 'dired-find-alternate-file 'disabled nil)
+#+END_SRC
+
+* Presentation
+#+BEGIN_SRC emacs-lisp
+  (use-package epresent
+     :ensure t)
 #+END_SRC
