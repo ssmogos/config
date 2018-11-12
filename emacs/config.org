@@ -1,3 +1,5 @@
+#+OPTIONS: num:nil toc:nil
+#+TITLE: Emacs configuration
 #+STARTUP: content
 
 * Repos
@@ -408,7 +410,20 @@ This makes sure that everything can be a project.
 #+END_SRC
 
 * Presentation
+** Epresent
 #+BEGIN_SRC emacs-lisp
   (use-package epresent
      :ensure t)
+#+END_SRC
+** Reveal.js
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-reveal
+  :load-path "~/dev/emacs_deps/org-reveal") ;; where the https://github.com/yjwen/org-reveal repo is clone)
+
+  ;;(setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+  (setq org-reveal-root "file:///home/ssmogos/dev/reveal.js/reveal.js-3.7.0/")
+  (setq org-reveal-mathjax t)
+
+  (use-package htmlize
+  :ensure t)
 #+END_SRC
