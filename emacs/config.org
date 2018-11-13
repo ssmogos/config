@@ -111,7 +111,6 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
   (ido-mode 1))
 #+END_SRC
 
-
 ** Browse kill ring
 #+BEGIN_SRC emacs-lisp
   (use-package browse-kill-ring
@@ -123,6 +122,35 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 	  
 #+END_SRC
 
+** Show line numbers
+#+BEGIN_SRC emacs-lisp
+  (line-number-mode t)
+#+END_SRC
+** Use path from shell
+#+BEGIN_SRC emacs-lisp
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)))
+#+END_SRC
+** Move selected region up or down
+#+BEGIN_SRC emacs-lisp
+(use-package move-text
+  :ensure t
+  :bind
+  (([(meta shift up)] . move-text-up)
+   ([(meta shift down)] . move-text-down)))
+#+END_SRC
+** Markdown mode
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode))
+  :config
+  (setq markdown-fontify-code-blocks-natively t))
+#+END_SRC
 
 * Key bindings
 #+BEGIN_SRC emacs-lisp 
@@ -150,13 +178,29 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 
 ** Auto complete
 #+BEGIN_SRC emacs-lisp
-  (use-package auto-complete
-    :ensure t
-    :init
-    (progn
-      (ac-config-default)
-      (auto-complete-mode t)
-   ))
+;  (use-package auto-complete
+;    :ensure t
+;    :init
+;    (progn
+;      (ac-config-default)
+;      (auto-complete-mode t)
+;   ))
+#+END_SRC
+** Company - automcomplete
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :ensure t
+  :config
+  (setq company-idle-delay 0.5)
+  (setq company-show-numbers t)
+  (setq company-tooltip-limit 10)
+  (setq company-minimum-prefix-length 2)
+  (setq company-tooltip-align-annotations t)
+  ;; invert the navigation direction if the the completion popup-isearch-match
+  ;; is displayed on top (happens near the bottom of windows)
+  (setq company-tooltip-flip-when-above t)
+  (global-company-mode))
+
 #+END_SRC
 
 ** Ivy
@@ -296,10 +340,14 @@ And this quickly deletes a line.
 
 ** Json and Yaml modes 
 #+BEGIN_SRC emacs-lisp
+(use-package yaml-mode
+  :ensure t)
+
     (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 #+END_SRC
+
 
 * Projectile
 Projectile is an awesome project manager, mostly because it recognizes directories
@@ -408,6 +456,7 @@ This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
   (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
+
 
 * Presentation
 ** Epresent
