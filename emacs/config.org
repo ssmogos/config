@@ -495,6 +495,11 @@ This makes sure that everything can be a project.
   (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
 
+** Define key for find name dired
+#+BEGIN_SRC emacs-lisp
+(define-key dired-mode-map "F" 'find-name-dired)
+#+END_SRC
+
 
 * Presentation
 ** Epresent
