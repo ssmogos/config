@@ -109,6 +109,14 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
   (setq ido-enable-flex-matching t)
   (ido-everywhere t)
   (ido-mode 1))
+
+(use-package ido-vertical-mode
+  :ensure t
+  :defer 1
+  :config
+  (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+  (ido-vertical-mode 1)
+)
 #+END_SRC
 
 ** Browse kill ring
@@ -250,7 +258,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 #+END_SRC
 
 
-* DONE Utility functions
+* Utility functions
 ** Copy selected file path
 #+BEGIN_SRC emacs-lisp
 
