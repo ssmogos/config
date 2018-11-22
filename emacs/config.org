@@ -101,6 +101,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 #+BEGIN_SRC emacs-lisp
 (setq make-backup-files nil)
 (setq auto-save-default nil)
+(setq create-lockfiles nil)
 #+END_SRC
 ** Enabled ido everywhere
 #+BEGIN_SRC emacs-lisp
