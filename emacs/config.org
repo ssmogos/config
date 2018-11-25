@@ -261,6 +261,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 
 * Utility functions
 ** Copy selected file path
+
 #+BEGIN_SRC emacs-lisp
 
   (defun ssmogos/file-name-on-clipboard ()
@@ -276,7 +277,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 	(message filename))))
 
 
-  (global-set-key (kbd "C-c p") 'ssmogos/file-name-on-clipboard)
+ ;; (global-set-key (kbd "C-c P") 'ssmogos/file-name-on-clipboard)
 #+END_SRC
 
 ** Use async mode
@@ -339,26 +340,6 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 
 #+END_SRC
 
-** Copy a line
-Regardless of where your cursor is, this quickly copies a line.
-#+BEGIN_SRC emacs-lisp
-  (defun ssmogos/copy-whole-line ()
-    "Copies a line without regard for cursor position."
-    (interactive)
-    (save-excursion
-      (kill-new
-       (buffer-substring
-        (point-at-bol)
-        (point-at-eol)))))
-  (global-set-key (kbd "C-c l c") 'ssmogos/copy-whole-line)
-#+END_SRC
-
-** Kill a line
-And this quickly deletes a line.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c l k") 'kill-whole-line)
-#+END_SRC
-
 ** Open emacs config
 #+BEGIN_SRC emacs-lisp
   (defun ssmogos/config-visit ()
@@ -393,10 +374,21 @@ with a =.git= directory as projects and helps you manage them accordingly.
 ** Enable projectile globally
 This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile
+    (use-package projectile
+      :ensure t
+      :init
+	(projectile-mode 1)
+	(setq projectile-completion-system 'ivy)
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
     :ensure t
-    :init
-      (projectile-mode 1))
+    :config
+    (counsel-projectile-mode 1))
+
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 #+END_SRC
 
 ** Let projectile call make
