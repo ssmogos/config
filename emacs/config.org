@@ -366,6 +366,15 @@ Lets us use asynchronous processes wherever possible, pretty useful.
     (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 #+END_SRC
 
+** Undo tree
+#+BEGIN_SRC emacs-lisp
+    (use-package undo-tree
+	 :ensure t
+	 :init
+	 (global-undo-tree-mode 1)
+	 )
+#+END_SRC
+
 
 * Projectile
 Projectile is an awesome project manager, mostly because it recognizes directories
@@ -389,6 +398,8 @@ This makes sure that everything can be a project.
     (counsel-projectile-mode 1))
 
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "s-g") 'projectile-grep)
+(define-key projectile-mode-map (kbd "s-G") 'projectile-find-file-dwim)
 #+END_SRC
 
 ** Let projectile call make
@@ -421,7 +432,12 @@ This makes sure that everything can be a project.
 	 (java . t)
          (python . t)
          (js . t)
+         (ditaa .t)
 	 ))
+
+
+(setq org-ditaa-jar-path "~/.emacs.d/ditaa-0.11.0-standalone.jar")
+
 #+END_SRC
 ** Define extra orgmode templates
 #+BEGIN_SRC emacs-lisp
@@ -448,6 +464,10 @@ This makes sure that everything can be a project.
   ;; generate headers
   (add-to-list 'org-structure-template-alist
 		 '("head" "#+HEADERS: ?"))
+
+  ;; ditta
+  (add-to-list 'org-structure-template-alist
+                 '("ditaa" "#+BEGIN_SRC ditaa :file\n?\n#+END_SRC" ""))
 #+END_SRC
 
 ** Don't ask for confirmation for those languages
