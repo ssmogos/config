@@ -191,6 +191,14 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
 
+** Increase window size
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "s-]") 'enlarge-window-horizontally)
+  (global-set-key (kbd "s-[") 'shrink-window-horizontally)
+  (global-set-key (kbd "s--") 'shrink-window)
+  (global-set-key (kbd "s-=") 'enlarge-window)
+#+END_SRC
+
 
 * Addional packages
 ** Try a package without install
