@@ -16,7 +16,7 @@
 ** Set theme and hide menu bar
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-screen t)
-  (load-theme 'darkmine)
+  (load-theme 'wheatgrass)
   (tool-bar-mode -1)
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
