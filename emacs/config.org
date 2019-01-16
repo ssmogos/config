@@ -5,10 +5,12 @@
 * Repos
 ** Elpa melpa and tromey
 #+BEGIN_SRC emacs-lisp
-(setq package-archives '(("ELPA"  . "http://tromey.com/elpa/")
-			 ("gnu"   . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")
-))
+(setq
+ package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                    ("org" . "http://orgmode.org/elpa/")
+                    ("melpa" . "http://melpa.org/packages/")
+                    ("melpa-stable" . "http://stable.melpa.org/packages/"))
+ package-archive-priorities '(("melpa" . 1)))
 #+END_SRC
 
 
@@ -448,34 +450,31 @@ This makes sure that everything can be a project.
 
 #+END_SRC
 ** Define extra orgmode templates
+
 #+BEGIN_SRC emacs-lisp
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+(add-to-list 'org-structure-template-alist '("http" . "src http"))
+(add-to-list 'org-structure-template-alist '("bashv" . "src bash :results output replace"))
+(add-to-list 'org-structure-template-alist '("bash" . "src bash"))
 
-  (add-to-list 'org-structure-template-alist
-	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 
-  (add-to-list 'org-structure-template-alist
-	       '("http" "#+BEGIN_SRC http \n?\n#+END_SRC"))
+(tempo-define-template "my-property"
+               '(":PROPERTIES:" p ":END:")
+               "<p"
+               "Insert a property tempate")
 
-  (add-to-list 'org-structure-template-alist
-	       '("java" "#+HEADERS: :classname ? :cmdline \"-cp .\"\n#+BEGIN_SRC java :results output :exports both \n\n#+END_SRC"))
+(tempo-define-template "javaexec"
+               '("#+HEADERS: :classname " p ":cmdline \"-cp .\"\n#+BEGIN_SRC java :results output :exports both \n\n#+END_SRC")
+               "<javaex"
+               "Insert a property tempate")
 
-  (add-to-list 'org-structure-template-alist
-	       '("name" "#+NAME: ?"))
+(tempo-define-template "my-name"
+               '("#+NAME: " p )
+               "<n"
+               "Insert a property tempate")
 
-  (add-to-list 'org-structure-template-alist
-	       '("bash" "#+BEGIN_SRC bash :results output replace\n?\n#+END_SRC"))
 
-  ;; results - the value returned by the last statement
-  (add-to-list 'org-structure-template-alist
-	       '("bash-value" "#+BEGIN_SRC bash :results value\n?\n#+END_SRC"))
-
-  ;; generate headers
-  (add-to-list 'org-structure-template-alist
-		 '("head" "#+HEADERS: ?"))
-
-  ;; ditta
-  (add-to-list 'org-structure-template-alist
-                 '("ditaa" "#+BEGIN_SRC ditaa :file\n?\n#+END_SRC" ""))
 #+END_SRC
 
 ** Don't ask for confirmation for those languages
@@ -541,72 +540,9 @@ This makes sure that everything can be a project.
   :ensure t)
 #+END_SRC
 
-
-* Java support using lsp
+* Popup menu
 #+BEGIN_SRC emacs-lisp
-   ;; need to install this first as it will not find the proper package otherwise  
-  (use-package hydra
-      :ensure t)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-      (require 'cc-mode)
-
-      (use-package treemacs
-	:ensure t)
-
-      (use-package yasnippet
-	:ensure t
-	:config
-	(yas-global-mode))
-
-      (use-package lsp-mode
-	:ensure t
-	:init (setq lsp-eldoc-render-all nil
-		    lsp-highlight-symbol-at-point nil))
-
-      (use-package company-lsp
-	:after  company
-	:ensure t
-	:config
-	(setq company-lsp-cache-candidates t
-	      company-lsp-async t))
-
-      (use-package lsp-ui
-	:ensure t
-	:config
-	(setq lsp-ui-sideline-update-mode 'point))
-
- ;     (use-package lsp-java
-;	:ensure t
-;	:config
-;	(add-hook 'java-mode-hook
-;		  (lambda ()
-;		    (setq-local company-backends (list 'company-lsp))))
-
-;	(add-hook 'java-mode-hook 'lsp-java-enable)
-;	(add-hook 'java-mode-hook 'flycheck-mode)
-;	(add-hook 'java-mode-hook 'company-mode)
-;	(add-hook 'java-mode-hook 'lsp-ui-mode))
-
-      (use-package dap-mode
-	:ensure t
-	:after lsp-mode
-	:config
-	(dap-mode t)
-	(dap-ui-mode t))
-
-      (use-package dap-java
-	:after (lsp-java))
-
- ;     (use-package lsp-java-treemacs
-;	:after (treemacs))
-
-      (use-package treemacs-projectile
-	:after treemacs projectile
-	:ensure t)
-
-  ;; Popup menu - works in different contexts
+;; Popup menu - works in different contexts
       (use-package popup-imenu
 	:commands popup-imenu
 	:ensure t
@@ -615,3 +551,4 @@ This makes sure that everything can be a project.
       (setq popup-imenu-position 'point)
 
 #+END_SRC
+
