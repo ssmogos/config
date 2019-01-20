@@ -369,7 +369,9 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 ** Json and Yaml modes 
 #+BEGIN_SRC emacs-lisp
 (use-package yaml-mode
-  :ensure t)
+  :ensure t
+  :commands (yaml-mode)
+)
 
     (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
@@ -458,6 +460,7 @@ This makes sure that everything can be a project.
 (add-to-list 'org-structure-template-alist '("bashv" . "src bash :results output replace"))
 (add-to-list 'org-structure-template-alist '("bash" . "src bash"))
 
+(require 'org-tempo)
 
 (tempo-define-template "my-property"
                '(":PROPERTIES:" p ":END:")
@@ -470,7 +473,7 @@ This makes sure that everything can be a project.
                "Insert a property tempate")
 
 (tempo-define-template "my-name"
-               '("#+NAME: " p )
+               '("#+NAME: " p "")
                "<n"
                "Insert a property tempate")
 
@@ -521,6 +524,7 @@ This makes sure that everything can be a project.
 #+END_SRC
 
 
+
 * Presentation
 ** Epresent
 #+BEGIN_SRC emacs-lisp
@@ -539,6 +543,7 @@ This makes sure that everything can be a project.
   (use-package htmlize
   :ensure t)
 #+END_SRC
+
 
 * Popup menu
 #+BEGIN_SRC emacs-lisp
