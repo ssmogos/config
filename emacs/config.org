@@ -6,9 +6,9 @@
 ** Elpa melpa and tromey
 #+BEGIN_SRC emacs-lisp
 (setq
- package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+ package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                     ("org" . "http://orgmode.org/elpa/")
-                    ("melpa" . "http://melpa.org/packages/")
+                    ("melpa" . "https://melpa.org/packages/")
                     ("melpa-stable" . "http://stable.melpa.org/packages/"))
  package-archive-priorities '(("melpa" . 1)))
 #+END_SRC
@@ -74,18 +74,26 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
     ([remap other-window] . switch-window))
 #+END_SRC
 
+** Use chrome to browse
+   #+begin_src emacs-lisp
+   (setq browse-url-browser-function `browse-url-chrome)
+   #+end_src
 ** Highlights cursor
 #+BEGIN_SRC emacs-lisp
-(use-package beacon
-  :ensure t
-  :defer 2
-  :diminish beacon-mode
-  :config
-  (beacon-mode 1))
+;(use-package beacon
+;  :ensure t
+;  :defer 2
+;  :diminish beacon-mode
+;  :config
+;  (beacon-mode 1))
 #+END_SRC
 
 
 * Functionality
+** Start emacs server automatically
+   #+begin_src emacs-lisp
+   (server-start)
+   #+end_src
 ** Use shift keys to navigate through windows
 #+BEGIN_SRC emacs-lisp
   ;; Make windmove work in org-mode:
@@ -120,6 +128,7 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
   (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
   (ido-vertical-mode 1)
 )
+
 #+END_SRC
 
 ** Browse kill ring
@@ -140,10 +149,10 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 ** Use path from shell
 #+BEGIN_SRC emacs-lisp
 (use-package exec-path-from-shell
-  :ensure t
-  :config
-  (when (memq window-system '(mac ns))
-    (exec-path-from-shell-initialize)))
+ :ensure t
+ :config
+  (setq exec-path-from-shell-variables (quote ("PATH" "MANPATH" "GOPATH")))
+  (exec-path-from-shell-initialize))
 #+END_SRC
 ** Move selected region up or down
 #+BEGIN_SRC emacs-lisp
@@ -203,6 +212,13 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 
 
 * Addional packages
+** Install restclinet
+   #+begin_src emacs-lisp
+   (use-package restclient
+   :ensure t
+   )
+   #+end_src
+
 ** Try a package without install
 #+BEGIN_SRC emacs-lisp
   (use-package try
@@ -253,12 +269,14 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 #+BEGIN_SRC emacs-lisp
 (use-package kubernetes
    :ensure t)
-(use-package kubernetes-evil
-   :ensure t)
+;(use-package kubernetes-evil
+;   :ensure t)
 #+END_SRC
 ** Http requests for orgmode
 #+BEGIN_SRC emacs-lisp
 (use-package ob-http
+  :ensure t)
+(use-package ob-restclient
   :ensure t)
 #+END_SRC
 
@@ -267,6 +285,16 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
   (use-package graphql-mode
     :ensure t)
 #+END_SRC
+
+** Smex for smart M+x
+   #+begin_src emacs-lisp
+   (use-package smex
+  :ensure t
+  :bind
+  ("M-x" . 'smex)
+  ("M-X" . 'smex-major-mode-commands)
+  ("C-c C-c M-x" . 'execute-extended-command))
+   #+end_src
 
 
 * Utility functions
@@ -354,7 +382,7 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 #+BEGIN_SRC emacs-lisp
   (defun ssmogos/config-visit ()
     (interactive)
-    (find-file "~/dev/config/emacs/config.org"))
+    (find-file "~/dev/ssmogos/config/emacs/config.org"))
   (global-set-key (kbd "C-c e") 'ssmogos/config-visit)
 #+END_SRC
 ** Reload emacs config
@@ -362,7 +390,7 @@ Lets us use asynchronous processes wherever possible, pretty useful.
   (defun ssmogos/config-reload ()
     "Reloads config.org at runtime"
     (interactive)
-    (org-babel-load-file (expand-file-name "~/dev/config/emacs/config.org")))
+    (org-babel-load-file (expand-file-name "~/dev/ssmogos/config/emacs/config.org")))
   (global-set-key (kbd "C-c r") 'ssmogos/config-reload)
 #+END_SRC
 
@@ -378,14 +406,6 @@ Lets us use asynchronous processes wherever possible, pretty useful.
     (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 #+END_SRC
 
-** Undo tree
-#+BEGIN_SRC emacs-lisp
-    (use-package undo-tree
-	 :ensure t
-	 :init
-	 (global-undo-tree-mode 1)
-	 )
-#+END_SRC
 
 
 * Projectile
@@ -445,12 +465,16 @@ This makes sure that everything can be a project.
          (python . t)
          (js . t)
          (ditaa .t)
+         (org .t)
+         (restclient .t)
+         
 	 ))
 
 
 (setq org-ditaa-jar-path "~/.emacs.d/ditaa-0.11.0-standalone.jar")
 
 #+END_SRC
+
 ** Define extra orgmode templates
 
 #+BEGIN_SRC emacs-lisp
@@ -480,11 +504,12 @@ This makes sure that everything can be a project.
 
 #+END_SRC
 
+
 ** Don't ask for confirmation for those languages
 #+BEGIN_SRC emacs-lisp
 ;; disable asking for confirmation on execution in orgmode
 (defun my-org-confirm-babel-evaluate (lang body)
-  (not (member lang '("bash" "sh" "http" "java"))))
+  (not (member lang '("bash" "emacs-lisp" "sh" "http" "java"))))
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
@@ -511,6 +536,19 @@ This makes sure that everything can be a project.
   )   
 #+END_SRC
 
+** Git link
+   #+begin_src emacs-lisp
+   (use-package git-link
+  :ensure t
+  :custom
+  (git-link-remote-alist
+   (quote
+    (("github" git-link-github)
+     ("bitbucket" git-link-bitbucket)
+     ("gitorious" git-link-gitorious)
+     ("gitlab" git-link-gitlab)
+     ("git.ecd.axway.int" git-link-gitlab)))))
+   #+end_src
 
 * File navigation
 ** Use the same buffer with dired when navigating with 'a'
@@ -536,13 +574,15 @@ This makes sure that everything can be a project.
   (use-package ox-reveal
   :load-path "~/dev/emacs_deps/org-reveal") ;; where the https://github.com/yjwen/org-reveal repo is clone)
 
-  ;;(setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
-  (setq org-reveal-root "file:///home/ssmogos/dev/reveal.js/reveal.js-3.7.0/")
+  (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+  ;(setq org-reveal-root "file:///home/ssmogos/dev/emacs_deps/reveal.js/reveal.js-3.7.0/")
   (setq org-reveal-mathjax t)
 
   (use-package htmlize
   :ensure t)
 #+END_SRC
+
+#+RESULTS:
 
 
 * Popup menu
@@ -557,3 +597,80 @@ This makes sure that everything can be a project.
 
 #+END_SRC
 
+
+* Treemacs and java
+
+  #+begin_src emacs-lisp
+  (use-package yasnippet
+  :diminish yas-minor-mode
+  :commands yas-minor-mode
+  :ensure t
+  :config
+  (yas-reload-all)
+  )
+  #+end_src
+
+  #+begin_src emacs-lisp
+  (use-package treemacs
+  :ensure t)
+  #+end_src
+
+
+  #+begin_src emacs-lisp
+  (use-package lsp-mode
+  :ensure t
+  :demand t
+  :init (setq lsp-inhibit-message nil ; you may set this to t to hide messages from message area
+		 lsp-eldoc-render-all nil
+	         lsp-prefer-flymake nil
+		 lsp-highlight-symbol-at-point nil))
+  #+end_src
+
+  #+begin_src emacs-lisp
+  (use-package lsp-treemacs
+  :ensure t)
+  #+end_src
+
+  #+begin_src emacs-lisp
+  (use-package company-lsp
+  :after  company
+  :ensure t
+  :config
+  (add-hook 'java-mode-hook (lambda () (push 'company-lsp company-backends)))
+  (setq company-lsp-enable-snippet t
+        company-lsp-cache-candidates t))
+  #+end_src
+
+  #+begin_src emacs-lisp
+  (use-package lsp-ui
+  :ensure t
+  :demand t
+  :config
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-symbol t
+        lsp-ui-sideline-show-hover t
+        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-update-mode 'point))
+  #+end_src
+
+  #+begin_src emacs-lisp
+  (use-package lsp-java
+  :ensure t
+  :config
+  ;; add lombok as agent for eclipse jdt
+  (setq lsp-java-vmargs
+	       (quote("-noverify" "-Xmx1G" "-XX:+UseG1GC" "-XX:+UseStringDeduplication" "-javaagent:/home/ssmogos/.java/lombok.jar")))
+  (add-hook 'java-mode-hook #'lsp))
+  #+end_src
+
+  #+begin_src emacs-lisp
+  (use-package dap-mode
+  :ensure t
+  :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
+
+(use-package dap-java
+  :after (lsp-java))
+  #+end_src
