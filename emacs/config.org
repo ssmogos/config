@@ -318,6 +318,12 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
  ;; (global-set-key (kbd "C-c P") 'ssmogos/file-name-on-clipboard)
 #+END_SRC
 
+** Install async
+   #+begin_src emacs-lisp
+     (use-package async
+     :ensure t)
+     (require 'ob-async)
+   #+end_src
 ** Use async mode
 Lets us use asynchronous processes wherever possible, pretty useful.
 #+BEGIN_SRC emacs-lisp
