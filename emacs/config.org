@@ -410,6 +410,9 @@ Lets us use asynchronous processes wherever possible, pretty useful.
     (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+
+(defun org-babel-execute:yaml (body params) body)
+
 #+END_SRC
 
 
@@ -515,7 +518,7 @@ This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
 ;; disable asking for confirmation on execution in orgmode
 (defun my-org-confirm-babel-evaluate (lang body)
-  (not (member lang '("bash" "emacs-lisp" "sh" "http" "java"))))
+  (not (member lang '("bash" "emacs-lisp" "sh" "http" "java" "yaml"))))
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
