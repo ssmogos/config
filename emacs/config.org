@@ -78,15 +78,6 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
    #+begin_src emacs-lisp
    (setq browse-url-browser-function `browse-url-chrome)
    #+end_src
-** Highlights cursor
-#+BEGIN_SRC emacs-lisp
-;(use-package beacon
-;  :ensure t
-;  :defer 2
-;  :diminish beacon-mode
-;  :config
-;  (beacon-mode 1))
-#+END_SRC
 
 
 * Functionality
@@ -559,6 +550,7 @@ This makes sure that everything can be a project.
      ("git.ecd.axway.int" git-link-gitlab)))))
    #+end_src
 
+
 * File navigation
 ** Use the same buffer with dired when navigating with 'a'
 #+BEGIN_SRC emacs-lisp
@@ -569,6 +561,15 @@ This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
 (define-key dired-mode-map "F" 'find-name-dired)
 #+END_SRC
+** Dired narrow
+   #+begin_src emacs-lisp
+     (use-package dired-narrow
+       :ensure t
+       :config
+       (bind-key "C-c C-n" #'dired-narrow)
+       (bind-key "C-x C-N" #'dired-narrow-regexp)
+       )
+   #+end_src
 
 
 
@@ -682,4 +683,17 @@ This makes sure that everything can be a project.
 
 (use-package dap-java
   :after (lsp-java))
+  #+end_src
+
+* Jira integration
+
+  #+begin_src emacs-lisp
+      (use-package ox-jira
+      :defer 3
+      :after org)
+    (use-package org-jira
+      :defer 3
+      :after org
+      :custom
+      (jiralib-url "https://techweb.axway.com/jira"))
   #+end_src
